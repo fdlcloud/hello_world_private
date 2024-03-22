@@ -1,0 +1,10 @@
+fastapi==0.103.0
+uvicorn==0.28.0
+httpx==0.27.0
+pytest
+pydantic
+azure-identity
+pytest-mock
+pyyaml
+pyodbc
+pytest-asyncio

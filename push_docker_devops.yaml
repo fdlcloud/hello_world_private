@@ -1,0 +1,20 @@
+trigger:
+  branches:
+    include:
+    - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: docker build -t $(acrLoginServer)/myapp:$(Build.BuildId) .
+  displayName: 'Build Docker image'
+
+- script: |
+    docker login $(acrLoginServer) -u $(acrUsername) -p $(acrPassword)
+    docker push $(acrLoginServer)/myapp:$(Build.BuildId)
+  displayName: 'Push Docker image'
+  env:
+    acrLoginServer: 'yourAcrLoginServer.azurecr.io'
+    acrUsername: $(acrUsername)
+    acrPassword: $(acrPassword)
