@@ -6,7 +6,7 @@ import os
 try:
     app_host = os.environ['app_host']
 except:
-    app_host = '127.0.0.1'
+    app_host = '127.0.0.2'
 
 try:
     app_port = int(os.environ['8080'])
