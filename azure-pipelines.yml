@@ -18,9 +18,8 @@ variables:
   tag: '$(Build.BuildId)'
   imagePullSecret: 'shelfv02bf1-auth'
 
-  # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  openai_key: $(openai_key)
+  #openai_key: $(openai_key)
   #app_host: '127.0.0.2'
   #app_port: '8080'
 
