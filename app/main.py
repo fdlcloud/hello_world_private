@@ -274,15 +274,15 @@ async def read_items():
         
               <div class="col-md-7 col-lg-8">
 
-                  <div class="row gy-3">
-                    <div class="col-md-3">
+                  <div class="row gy-12">
+                    <div class="col-md-12">
                       <label for="cc-expiration" class="form-label">Test Things</label>
                       <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
                     </div>
                   </div>
 
-                  <div class="row gy-3">
-                    <div class="col-md-3">
+                  <div class="row gy-12">
+                    <div class="col-md-12">
                       <label for="cc-done" class="form-label">Output Things</label>
                       <input type="text" class="form-control" id="cc-done" placeholder="" required="">
                     </div>
