@@ -20,8 +20,8 @@ variables:
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  app_host: 127.0.0.2
-  app_port: 8080
+  app_host: '127.0.0.2'
+  app_port: '8080'
 
 stages:
 - stage: Build
