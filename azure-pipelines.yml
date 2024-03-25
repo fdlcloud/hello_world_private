@@ -20,9 +20,9 @@ variables:
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  app_host: '127.0.0.2'
-  app_port: '8080'
-  $openai_key: $(openai_key)
+  openai_key: $(openai_key)
+  #app_host: '127.0.0.2'
+  #app_port: '8080'
 
 stages:
 - stage: Build
