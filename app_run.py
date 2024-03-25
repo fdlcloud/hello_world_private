@@ -9,7 +9,7 @@ except:
     app_host = '127.0.0.2'
 
 try:
-    app_port = int(os.environ['8080'])
+    app_port = int(os.environ['app_port'])
 except:
     app_port = 8080
 
