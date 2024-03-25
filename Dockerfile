@@ -13,5 +13,6 @@ ENV app_port=$app_port
 ENV openai_key=$openai_key
 
 EXPOSE $app_port
+EXPOSE 80
 
 CMD ["uvicorn", "app.main:app", "--host", app_host, "--port", app_port, '--openai_key', openai_key]
