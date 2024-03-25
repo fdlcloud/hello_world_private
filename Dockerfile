@@ -10,7 +10,7 @@ COPY ./app /code/app
 
 #ENV app_host=$app_host
 #ENV app_port=$app_port
-ENV openai_key=$openai_key
+#ENV openai_key=$openai_key
 
 #EXPOSE $app_port
 EXPOSE 80
@@ -18,4 +18,4 @@ EXPOSE 8080
 EXPOSE 5000
 
 #CMD ["uvicorn", "app.main:app", "--host", app_host, "--port", app_port, '--openai_key', openai_key]
-CMD ["uvicorn", "app.main:app", '--openai_key', openai_key]
+CMD ["uvicorn", "app.main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]
