@@ -9,6 +9,7 @@ import os
 import requests
 import pyodbc
 import struct
+import openai
 
 app = FastAPI()
 
@@ -358,7 +359,31 @@ class TextEnr(BaseModel):
 @app.post("/output_text")
 def output_text(q: TextEnr):
     text_to_enr = q.text_to_enrich
-    json_compatible_item_data = jsonable_encoder({'enriched_text': 'AAAAAAAAA' + text_to_enr})
+    try:
+        try:
+            from secrets import openai_key
+            os.environ['openai_key'] = openai_key
+        except:
+            pass
+
+        from openai import OpenAI
+        client = OpenAI(api_key=os.environ.get("openai_key"))
+
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system",
+                 "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
+                {"role": "user", "content": "Riddle me something: %s" % text_to_enr}
+            ]
+        )
+
+        out_out = completion.choices[0].message.content
+    except:
+        out_out = 'AAAAAAAAA' + text_to_enr
+
+    json_compatible_item_data = jsonable_encoder({'enriched_text': out_out})
+
     return JSONResponse(content=json_compatible_item_data, status_code=200)
 
 
