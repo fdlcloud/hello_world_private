@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi.encoders import jsonable_encoder
 from typing import Union
+from openai import OpenAI
 
 # from azure import identity
 import os
@@ -296,8 +297,8 @@ async def read_items():
 
                   <div class="row gy-12">
                     <div class="col-md-12">
-                      <label for="cc-done" class="form-label">Output Things</label>
-                      <input type="text" class="form-control" id="cc-done" placeholder="" required="">
+                      <div for="cc-done" class="form-label" >Output Things</div>
+                      <div class="form-control" style="white-space: normal; height:150px" id="cc-done"></div>
                     </div>
                   </div>
 
@@ -321,7 +322,7 @@ async def read_items():
                     text_to_enrich: $('#cc-expiration').val(),
                 }),
                 success: function(response) {
-                    $('#cc-done').val(response['enriched_text']);
+                    $('#cc-done').text(response['enriched_text']);
                 },
                 error: function(xhr, status, error) {
                     // This function is called if the request fails
@@ -381,7 +382,6 @@ def output_text(q: TextEnr):
         except:
             pass
 
-        from openai import OpenAI
         client = OpenAI(api_key=os.environ.get("openai_key"))
 
         completion = client.chat.completions.create(
