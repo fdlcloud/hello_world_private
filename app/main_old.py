@@ -4,18 +4,20 @@ import httpx
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi.encoders import jsonable_encoder
-from azure import identity
+# from azure import identity
 import os
 import requests
 import pyodbc
 import struct
-import openai
+
+# import openai
 
 app = FastAPI()
 
+
 # ENV AZURE_SQL_CONNECTIONSTRING: AZURE_SQL_CONNECTIONSTRING='Driver={ODBC Driver 18 for SQL Server};Server=tcp:<database-server-name>.database.windows.net,1433;Database=<database-name>;UID=<user-name>;PWD=<user-password>;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30'
-os.environ['AZURE_SQL_CONNECTIONSTRING'] = 'Driver={ODBC Driver 18 for SQL Server};Server=tcp:<database-server-name>.database.windows.net,1433;Database=<database-name>;UID=<user-name>;PWD=<user-password>;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30'
-connection_string = os.environ["AZURE_SQL_CONNECTIONSTRING"]
+# os.environ['AZURE_SQL_CONNECTIONSTRING'] = 'Driver={ODBC Driver 18 for SQL Server};Server=tcp:<database-server-name>.database.windows.net,1433;Database=<database-name>;UID=<user-name>;PWD=<user-password>;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30'
+# connection_string = os.environ["AZURE_SQL_CONNECTIONSTRING"]
 
 # https://learn.microsoft.com/en-us/azure/azure-sql/database/azure-sql-python-quickstart?view=azuresql&tabs=windows%2Csql-auth
 
@@ -33,7 +35,8 @@ def read_from_azure_db(item_first_name, item_last_name):
     try:
         with get_azure_db_conn() as conn:
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO PersonsTable (FirstName, LastName) VALUES (%s, %s)" % (item_first_name, item_last_name))
+            cursor.execute(
+                "INSERT INTO PersonsTable (FirstName, LastName) VALUES (%s, %s)" % (item_first_name, item_last_name))
             conn.commit()
             conn.close()
         return 'Success'
@@ -91,6 +94,7 @@ def fetch_data_from_api_general():
     else:
         return None
 
+
 def get_external_endpoint_name(endpoint_name):
     import yaml
     with open("data.yaml", 'r') as stream:
@@ -121,6 +125,7 @@ async def get_weather_async(city: str) -> dict:
             raise HTTPException(status_code=404, detail="Weather data not found")
         return response.json()
 
+
 @app.get("/async_weather/{city}")
 async def weather_async(city: str):
     return await get_weather_async(city)
@@ -135,11 +140,12 @@ def get_weather(city: str) -> dict:
     print('ciao')
     return JSONResponse(response.json())
 
+
 @app.get("/home", response_class=HTMLResponse)
 async def read_items():
     return """
         <html lang="en" data-bs-theme="light">
-        
+
             <head>
             <script src="/docs/5.3/assets/js/color-modes.js"></script>
 
@@ -156,7 +162,7 @@ async def read_items():
             <link rel="manifest" href="/docs/5.3/assets/img/favicons/manifest.json">
             <link rel="mask-icon" href="/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
             <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
-            
+
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <meta name="description" content="">
@@ -164,12 +170,12 @@ async def read_items():
             <meta name="generator" content="Hugo 0.122.0">
 
             <title>Checkout example · Bootstrap v5.3</title>
-            
+
             <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/checkout/">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-        
+
             <meta name="theme-color" content="#712cf9">
-        
+
                 <style>
                   .bd-placeholder-img {
                     font-size: 1.125rem;
@@ -178,13 +184,13 @@ async def read_items():
                     -moz-user-select: none;
                     user-select: none;
                   }
-            
+
                   @media (min-width: 768px) {
                     .bd-placeholder-img-lg {
                       font-size: 3.5rem;
                     }
                   }
-            
+
                   .b-example-divider {
                     width: 100%;
                     height: 3rem;
@@ -193,25 +199,25 @@ async def read_items():
                     border-width: 1px 0;
                     box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
                   }
-            
+
                   .b-example-vr {
                     flex-shrink: 0;
                     width: 1.5rem;
                     height: 100vh;
                   }
-            
+
                   .bi {
                     vertical-align: -.125em;
                     fill: currentColor;
                   }
-            
+
                   .nav-scroller {
                     position: relative;
                     z-index: 2;
                     height: 2.75rem;
                     overflow-y: hidden;
                   }
-            
+
                   .nav-scroller .nav {
                     display: flex;
                     flex-wrap: nowrap;
@@ -222,11 +228,11 @@ async def read_items():
                     white-space: nowrap;
                     -webkit-overflow-scrolling: touch;
                   }
-            
+
                   .btn-bd-primary {
                     --bd-violet-bg: #712cf9;
                     --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-            
+
                     --bs-btn-font-weight: 600;
                     --bs-btn-color: var(--bs-white);
                     --bs-btn-bg: var(--bd-violet-bg);
@@ -239,40 +245,40 @@ async def read_items():
                     --bs-btn-active-bg: #5a23c8;
                     --bs-btn-active-border-color: #5a23c8;
                   }
-            
+
                   .bd-mode-toggle {
                     z-index: 1500;
                   }
-            
+
                   .bd-mode-toggle .dropdown-menu .active .bi {
                     display: block !important;
                   }
                 </style>
-            
+
               <style>
             .fortipam-fade-in {
               opacity: 0;
               animation: fortipam-fade-in-animation 0.15s ease-in forwards;
             }
-            
+
             @keyframes fortipam-fade-in-animation {
               from {
                 opacity: 0;
               }
-            
+
               to {
                 opacity: 1;
               }
             }</style>
         </head>
       <body class="bg-body-tertiary">
-            
+
         <div class="container">
           <main>
             <div class="py-5 text-center">
               <h2>App Test AKS</h2>
             </div>
-        
+
               <div class="col-md-7 col-lg-8">
 
                   <div class="row gy-12">
@@ -288,17 +294,17 @@ async def read_items():
                       <input type="text" class="form-control" id="cc-done" placeholder="" required="">
                     </div>
                   </div>
-        
+
                   <hr class="my-4">
-        
+
                   <button id="myButton" class="w-100 btn btn-primary btn-lg">Do Enrich</button>
 
               </div>
             </div>
           </main>
-        
+
         </div>
-        
+
         <script>
         function sendData() {
             $.ajax({
@@ -318,19 +324,21 @@ async def read_items():
                 }
             });
         };
-        
+
         $(document).ready(function() {
             $('#myButton').click(sendData);
         });
-        
+
         </script>
         </body>
         </html>
     """
 
+
 @app.get("/weather/{city}")
 def weather(city: str):
     return get_weather(city)
+
 
 @app.get("/root")
 def read_root():
@@ -355,6 +363,7 @@ def read_item(q: Union[str, None] = None):
 
 class TextEnr(BaseModel):
     text_to_enrich: str
+
 
 @app.post("/output_text")
 def output_text(q: TextEnr):

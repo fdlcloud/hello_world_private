@@ -1,8 +1,6 @@
-from app.main import fetch_data_from_api_general, app, post_data_to_api, get_weather, JSONResponse
+from main import app, post_data_to_api, JSONResponse
 import pytest
 from fastapi.testclient import TestClient
-import json
-
 
 """
 def override_dependency(q: str | None = None):
