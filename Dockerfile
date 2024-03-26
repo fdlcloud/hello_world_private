@@ -17,4 +17,4 @@ EXPOSE 50505
 
 #CMD ["uvicorn", "app.main:app", "--host", app_host, "--port", app_port, '--openai_key', openai_key]
 #CMD ["uvicorn", "app.main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]
-ENTRYPOINT ["gunicorn", "app.main:app"]
+CMD ["gunicorn", "app.main:app"]
