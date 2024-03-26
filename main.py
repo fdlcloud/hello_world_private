@@ -8,7 +8,7 @@ from typing import Union
 # from azure import identity
 import os
 import requests
-import pyodbc
+#import pyodbc
 import struct
 
 app = fastapi.FastAPI()
